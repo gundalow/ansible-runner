@@ -85,14 +85,9 @@ jobs:
 
       - name: Prepare runner test container
         run: |
-          TMPDIR=$(mktemp -d)
-          cp test/integration/Dockerfile $TMPDIR
-          pyproject-build -w -o $TMPDIR
-          pushd $TMPDIR
-          docker build --build-arg WHEEL=$(ls -1 ansible_runner*.whl) --rm=true -t ansible-runner-gha${{ github.run_id }}-event-test .
-          podman build --build-arg WHEEL=$(ls -1 ansible_runner*.whl) --rm=true -t ansible-runner-gha${{ github.run_id }}-event-test .
-          popd
-          rm -r $TMPDIR
+          pyproject-build -w
+          docker build --build-arg WHEEL=$(basename dist/ansible_runner*.whl) --rm=true -t ansible-runner-gha${{ github.run_id }}-event-test --file=test/integration/Dockerfile dist/
+          podman build --build-arg WHEEL=$(basename dist/ansible_runner*.whl) --rm=true -t ansible-runner-gha${{ github.run_id }}-event-test --file=test/integration/Dockerfile dist/
 
       - name: Create tox environment
         run: |
