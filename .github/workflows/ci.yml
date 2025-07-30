@@ -43,7 +43,7 @@ jobs:
       fail-fast: false
       matrix:
         runner-vm-os:
-        - ubuntu-22.04
+        - ubuntu-24.04
         python-version:
         - >-
           3.10
@@ -106,8 +106,9 @@ jobs:
         - 3.11
         - >-
           3.10
+        - ~3.14.0-0
         runner-vm-os:
-        - ubuntu-22.04
+        - ubuntu-24.04
         toxenv:
         - integration
         - unit
@@ -134,7 +135,7 @@ jobs:
       runner-vm-os: >-
         ${{ matrix.runner-vm-os }}
       timeout-minutes: >-
-        ${{ matrix.toxenv == 'unit' && 2 || 4 }}
+        ${{ matrix.toxenv == 'unit' && 2 || 5 }}
       toxenv: >-
         ${{ matrix.toxenv }}
       tox-run-posargs: >-
